@@ -24,7 +24,7 @@ const addsubcategory = async (req, res) => {
 const getallSub = async (req, res) => {
  
   try {
-     const findsub = await SubCategory.find();
+     const findsub = await SubCategory.find().populate({path:'category', select:"title"});
     res.send({
       message: "all subCategories:",
       data: findsub,
@@ -40,9 +40,12 @@ const getASub = async (req, res) => {
    const id = req.params.id;
   try {
    
-    const getSub = await SubCategory.findById(id);
+    const getSub = await SubCategory.findById(id).populate({
+      path: "category",
+      select: "title",
+    });;
     res.send({
-      message: "the category",
+      message: "the subcategory",
       data: getSub,
     });
   } catch (error) {

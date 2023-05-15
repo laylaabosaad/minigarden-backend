@@ -2,72 +2,70 @@ import Cart from "../models/CartModel.js";
 import orders from "../models/OrderModel.js";
 
 const getAllOrders = async (req, res) => {
-  const allorders = await orders.find({});
+  const allorders = await orders
+    .find({})
+    .populate("items.productId")
+    .populate("userId", "fullname");
+
   res.send({
     message: "All orders:",
     data: allorders,
-
   });
-  
 };
 
 const deleteOrder = async (req, res) => {
-  const orderid = req.params.id
+  const orderid = req.params.id;
   try {
-    const removeorder = await orders.findByIdAndDelete(orderid)
+    const removeorder = await orders.findByIdAndDelete(orderid);
     res.send({
       message: "order deleted successfully",
-      data:removeorder
-    })
-    
+      data: removeorder,
+    });
   } catch (error) {
     res.send({
       message: "order not found?",
-      error:error.message
-      
-    })
+      error: error.message,
+    });
   }
- 
-  
-}
+};
 
 const getanOrder = async (req, res) => {
   const orderId = req.params.id;
   try {
-    const findorder = await orders.findById(orderId)
+    const findorder = await orders
+      .findById(orderId)
+      .populate("items.productId", "title, price")
+      .populate("userId", "fullname");
     res.send({
       message: "the order:",
-      data:findorder
-    })
-   
+      data: findorder,
+    });
   } catch (error) {
     res.send({
       message: "order not found",
-      error:error.message
-    })
-    
- }
+      error: error.message,
+    });
+  }
 };
-
 
 const getClientOrder = async (req, res) => {
   const userId = req.params.userId;
   try {
-    const orderClient= await orders.find({user:userId})
+    const orderClient = await orders
+      .find({ user: userId })
+      .populate("items.productId", "title, price")
+      .populate("userId", "fullname");
     res.send({
       message: "the client's order",
-      data:orderClient
-    })
-    
+      data: orderClient,
+    });
   } catch (error) {
     res.send({
       message: "Client has no orders",
-      error:error
-    })
-    
+      error: error,
+    });
   }
-}
-
+};
 
 const checkout = async (req, res) => {
   const userId = req.params.id;
@@ -110,4 +108,10 @@ const checkout = async (req, res) => {
   }
 };
 
-export default { getAllOrders, checkout, getanOrder, deleteOrder, getClientOrder};
+export default {
+  getAllOrders,
+  checkout,
+  getanOrder,
+  deleteOrder,
+  getClientOrder,
+};

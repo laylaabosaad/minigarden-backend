@@ -4,7 +4,11 @@ import Product from "../models/ProductModel.js";
 const getCartItems = async (req, res) => {
   const userId = req.params.id;
   try {
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ userId })
+      .populate("items.productId")
+      .populate("userId", "fullname");
+   
+      
     if (cart && cart.items.length > 0) {
       res.send({cart});
     } else {
@@ -19,7 +23,9 @@ const getCartItems = async (req, res) => {
 const getAllCarts = async (req, res) => {
   
   try {
-    const carts = await Cart.find();
+    const carts = await Cart.find()
+      .populate("items.productId")
+      .populate("userId", "fullname");
     res.status(201).send({ message: "All carts", data: carts })
     }
    catch (err) {
