@@ -1,12 +1,10 @@
-
 import SubCategory from "../models/subcategoryModel.js";
 
 const addsubcategory = async (req, res) => {
-    const title = req.body.title;
-    const category = req.body.category;
-    console.log(title, category);
+  const title = req.body.title;
+  const category = req.body.category;
+  console.log(title, category);
   try {
-  
     const addsub = new SubCategory({ title, category });
     await addsub.save();
 
@@ -22,9 +20,11 @@ const addsubcategory = async (req, res) => {
 };
 
 const getallSub = async (req, res) => {
- 
   try {
-     const findsub = await SubCategory.find().populate({path:'category', select:"title"});
+    const findsub = await SubCategory.find().populate({
+      path: "category",
+      select: "title",
+    });
     res.send({
       message: "all subCategories:",
       data: findsub,
@@ -37,15 +37,16 @@ const getallSub = async (req, res) => {
 };
 
 const getASub = async (req, res) => {
-   const id = req.params.id;
+  const category_id = req.params.category_id; // Use the correct parameter name
+  console.log(category_id);
   try {
-   
-    const getSub = await SubCategory.findById(id).populate({
+    const getSub = await SubCategory.find({ category: category_id }).populate({
       path: "category",
       select: "title",
-    });;
+    });
+    console.log(getSub);
     res.send({
-      message: "the subcategory",
+      message: "the subcategory of this category",
       data: getSub,
     });
   } catch (error) {
@@ -57,8 +58,8 @@ const getASub = async (req, res) => {
 };
 
 const updateSubcategory = async (req, res) => {
-    const id = req.params.id;
-    const {title, category}= req.body
+  const id = req.params.id;
+  const { title, category } = req.body;
   try {
     const editsub = await SubCategory.findByIdAndUpdate(id, {
       title,
@@ -69,17 +70,16 @@ const updateSubcategory = async (req, res) => {
       data: editsub,
     });
   } catch (error) {
-      res.send({
-          message: "edition failed",
-          error:error
-      })
+    res.send({
+      message: "edition failed",
+      error: error,
+    });
   }
 };
 
 const deleteSub = async (req, res) => {
-     const id = req.params.id;
+  const id = req.params.id;
   try {
- 
     const deletesub = await SubCategory.findByIdAndDelete(id);
     res.send({
       message: "sub deleted successfully",
@@ -93,4 +93,10 @@ const deleteSub = async (req, res) => {
   }
 };
 
-export default { addsubcategory, getallSub, getASub, deleteSub, updateSubcategory };
+export default {
+  addsubcategory,
+  getallSub,
+  getASub,
+  deleteSub,
+  updateSubcategory,
+};
