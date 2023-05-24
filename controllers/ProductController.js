@@ -104,6 +104,23 @@ const getproductByCategory = async (req, res) => {
   }
 };
 
+const getproductBySubcategory = async (req, res) => {
+  const subcatid = req.params.subcatid;
+  try {
+    const findbyCategory = await Product.find({ subcategory: subcatid })
+      .populate({ path: "category", select: "title" })
+      .populate({ path: "subcategory", select: "title" });
+    res.send({
+      message: "the category products",
+      data: findbyCategory,
+    });
+  } catch (error) {
+    res.send({
+      message: "categoryProduct not found",
+      error: error,
+    });
+  }
+}
 
 
 const updateProduct = async (req, res) => {
@@ -130,4 +147,5 @@ export default {
   updateProduct,
   getOneProduct,
   getproductByCategory,
+  getproductBySubcategory,
 };

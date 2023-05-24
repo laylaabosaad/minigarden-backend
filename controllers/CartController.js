@@ -52,7 +52,7 @@ const addCartProduct = async (req, res) => {
     if (cart) {
       // if cart exists for the user
       let itemIndex = cart.items.findIndex((p) => p.productId.toString() == productId.toString());
-      console.log(itemIndex)
+      // console.log(itemIndex)
 
       // Check if product exists or not
       if (itemIndex > -1) {
@@ -79,6 +79,60 @@ const addCartProduct = async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 };
+
+
+
+const increaseinCart = async (req, res) => {
+  const userId = req.params.id;
+  const { productId, quantity } = req.body;
+  console.log(productId, quantity);
+
+  try {
+    let cart = await Cart.findOne({ userId: userId });
+    let item = await Product.findOne({ _id: productId });
+    if (!item) {
+      res.status(404).send("Item not found!");
+    }
+    const price = item.price;
+    console.log("price:", price)
+    if (cart) {
+      // if cart exists for the user
+      let itemIndex = cart.items.findIndex(
+        (p) => p.productId.toString() == productId.toString()
+      );
+      console.log(itemIndex);
+
+      // Check if product exists or not
+      if (itemIndex > -1) {
+        let productItem = cart.items[itemIndex];
+        productItem.quantity += 1;
+        cart.items[itemIndex] = productItem;
+      } else {
+        cart.items.push({ productId, quantity, price});
+      }
+      cart.bill += quantity * price;
+      cart = await cart.save();
+      return res.status(201).send(cart);
+    } else {
+      // no cart exists, create one 
+      const newCart = await Cart.create({
+        userId,
+        items: [{ productId, quantity, price }],
+        bill: quantity * price,
+      });
+      return res.status(201).send(newCart);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+  }
+};
+
+
+
+
+
+
 
 //remove items from the cart
 
@@ -159,4 +213,4 @@ const deleteItem = async (req, res) => {
   }
 };
 
-export default { getCartItems, addCartProduct, getAllCarts, deleteItem };
+export default { getCartItems, addCartProduct, getAllCarts, deleteItem, increaseinCart};
