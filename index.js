@@ -10,6 +10,7 @@ import CategoryRoute from "./routes/CategoryRoute.js";
 import subCategory from "./routes/subCategoryRoutes.js";
 import ContactUs from "./routes/ContactUsRoute.js";
 import bodyParser from "body-parser";
+import UserContactUs from "./routes/UserContact.js";
 
 dotenv.config();
 
@@ -34,7 +35,8 @@ app.use("/cart", CartRoute);
 app.use("/orders", OrderRoute);
 app.use("/category", CategoryRoute);
 app.use("/subcategory", subCategory);
-app.use("/contactus", ContactUs)
+app.use("/admincontactus", ContactUs)
+app.use("/contactus", UserContactUs)
 
 
 app.listen(port, () => {
