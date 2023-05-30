@@ -9,11 +9,11 @@ router
   .route("/add")
   .post(
     catupload.single("image"),
-    isAuthenticated,
+    
     ProductController.addProduct
   );
-router.route("/:id").delete(isAuthenticated, ProductController.deleteProduct);
-router.route("/:id").put(isAuthenticated, ProductController.updateProduct);
+router.route("/:id").delete( ProductController.deleteProduct);
+router.route("/:id").put(ProductController.updateProduct);
 router.route("/:id").get(ProductController.getOneProduct);
 router
   .route("/bycategory/:categoryId")
