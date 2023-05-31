@@ -134,46 +134,6 @@ const increaseinCart = async (req, res) => {
 
 
 
-//remove items from the cart
-
-// const deleteItem = async (req, res) => {
-//   const userId = req.params.userId;
-//   const productId = req.params.itemId;
-
-//   try {
-//     const cart = await Cart.findOne({ userId });
-
-//     if (!cart) {
-//       return res.status(404).send("Cart not found");
-//     }
-
-//     const itemIndex = cart.items.findIndex(
-//       (item) => item.productId.toString() === productId
-//     );
-//     console.log(itemIndex);
-
-//     if (itemIndex === -1) {
-//       return res.status(404).send("Item not found in cart");
-//     }
-
-//     const productItem = cart.items[itemIndex];
-//     const product = await Product.findById(productItem.productId);
-
-//     if (!product) {
-//       return res.status(404).send("Product not found");
-//     }
-
-//     cart.bill -= product.price;
-//     cart.items.splice(itemIndex, 1);
-//     await cart.save();
-
-//     return res.status(200).send(cart);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Error deleting item from cart");
-//   }
-// };
-
 
 const deleteItem = async (req, res) => {
   const userId = req.params.userId;

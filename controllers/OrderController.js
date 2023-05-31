@@ -29,24 +29,6 @@ const deleteOrder = async (req, res) => {
   }
 };
 
-// const getanOrder = async (req, res) => {
-//   const orderId = req.params.id;
-//   try {
-//     const findorder = await orders
-//       .findById(orderId)
-//       .populate("items.productId", "title, price")
-//       .populate("userId", "fullname");
-//     res.send({
-//       message: "the order:",
-//       data: findorder,
-//     });
-//   } catch (error) {
-//     res.send({
-//       message: "order not found",
-//       error: error.message,
-//     });
-//   }
-// };
 
 const getClientOrder = async (req, res) => {
   const userId = req.params.userId;

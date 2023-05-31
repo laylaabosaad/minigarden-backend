@@ -38,25 +38,6 @@ const getuser = async (req, res) => {
 };
 
 // login a user
-// const loginUser = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   const loginUser = await User.findOne({ email });
-
-//   if (loginUser && (await bcrypt.compare(password, loginUser.password))) {
-//     res.send({
-//       _id: loginUser.id,
-//       fullname: loginUser.fullname,
-//       email: loginUser.email,
-//       token: generateToken(User._id),
-//       message: "login was successful",
-//     });
-//   } else {
-//     res.send({ message: "User doesn't exist. Please register" });
-//   }
-// };
-
-// login a user
  const loginUser = async (req, res) => {
   // Check if username and password is provided
   if (!req.body.email || !req.body.password) {
@@ -126,11 +107,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// const generateToken = (id) => {
-//   return jwt.sign({ id }, process.env.JWT_SECRET, {
-//     expiresIn: "30d",
-//   });
-// };
 
 //Update User role
 

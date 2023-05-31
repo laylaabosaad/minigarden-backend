@@ -1,7 +1,7 @@
 import express from "express";
 import ProductController from "../controllers/ProductController.js";
 import catupload from "../middleware/catupload.js";
-import isAuthenticated from "../middleware/userAuthMiddleware.js.js";
+
 const router = express.Router();
 
 router.route("/").get(ProductController.getProduct);
